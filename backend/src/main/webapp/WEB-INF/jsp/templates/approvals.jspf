@@ -1,0 +1,6 @@
+<template id="tpl-approvals">
+    <section class="page-section" aria-labelledby="approvals-title"><div class="page-heading"><div><p class="eyebrow">Approver workspace</p><h1 id="approvals-title" tabindex="-1">Requests to review</h1></div></div><div id="approvals-status" class="status-line" aria-live="polite"></div>
+        <form id="approval-filters" class="filter-bar"><div class="field"><label for="approval-status">Status</label><select id="approval-status" name="status"><option value="">All decisions</option><option value="PENDING">Pending</option><option value="APPROVED">Approved</option><option value="REJECTED">Rejected</option></select></div><div class="field"><label for="approval-start">From</label><input id="approval-start" name="startDate" type="date"></div><div class="field"><label for="approval-end">To</label><input id="approval-end" name="endDate" type="date"></div><button class="button button-secondary" type="submit">Filter</button></form>
+        <div id="approvals-content"></div>
+    </section>
+</template>

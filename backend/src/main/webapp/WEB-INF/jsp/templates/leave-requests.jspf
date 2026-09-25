@@ -1,0 +1,24 @@
+<template id="tpl-leave-requests">
+    <section class="page-section" aria-labelledby="requests-title">
+        <div class="page-heading"><div><p class="eyebrow">Employee workspace</p><h1 id="requests-title" tabindex="-1">My leave requests</h1></div><a class="button button-primary" href="#/leave-requests/new">New request <span aria-hidden="true">+</span></a></div>
+        <div id="requests-status" class="status-line" aria-live="polite"></div>
+        <div id="requests-content"></div>
+    </section>
+</template>
+<template id="tpl-request-form">
+    <section class="page-section" aria-labelledby="form-title"><div class="page-heading"><div><p class="eyebrow" id="form-kicker">Leave request</p><h1 id="form-title" tabindex="-1">New request</h1></div><a class="button button-quiet" href="#/leave-requests">Back</a></div>
+        <form id="request-form" class="request-form" enctype="multipart/form-data" novalidate>
+            <div id="request-form-error" class="form-error" role="alert" hidden></div>
+            <div class="form-grid"><div class="field"><label for="leave-type">Leave type</label><input id="leave-type" name="leaveType" maxlength="50" required placeholder="e.g. Annual leave"><span class="field-error" id="leave-type-error"></span></div>
+            <div class="field"><label for="partial-day">Day portion <span class="optional">optional</span></label><select id="partial-day" name="partialDay"><option value="">Full day</option><option value="FIRST_HALF">First half</option><option value="SECOND_HALF">Second half</option></select></div>
+            <div class="field"><label for="start-date">Start date</label><input id="start-date" name="startDate" type="date" required><span class="field-error" id="start-date-error"></span></div>
+            <div class="field"><label for="end-date">End date</label><input id="end-date" name="endDate" type="date" required><span class="field-error" id="end-date-error"></span></div></div>
+            <div class="field"><label for="reason">Reason</label><textarea id="reason" name="reason" rows="5" maxlength="1000" required placeholder="Add a short reason for your request"></textarea><span class="field-error" id="reason-error"></span></div>
+            <div class="field"><label for="attachment">Attachment <span class="optional">optional · PDF, JPG, PNG up to 5 MB</span></label><input id="attachment" name="attachment" type="file" accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"><span class="field-error" id="attachment-error"></span></div>
+            <div class="form-actions"><button class="button button-primary" type="submit" id="request-submit">Submit request <span aria-hidden="true">→</span></button><a class="button button-quiet" href="#/leave-requests">Cancel</a></div>
+        </form>
+    </section>
+</template>
+<template id="tpl-request-detail">
+    <section class="page-section" aria-labelledby="detail-title"><div class="page-heading"><div><p class="eyebrow">Request detail</p><h1 id="detail-title" tabindex="-1">Leave request</h1></div><a class="button button-quiet" href="#/leave-requests">Back</a></div><div id="detail-content"></div></section>
+</template>

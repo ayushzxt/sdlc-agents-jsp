@@ -60,7 +60,8 @@ async function historyView(root, id) {
 
 /** @param {HTMLElement} root @param {{id?: string, mode?: string}} params @returns {Promise<void>} */
 export async function mount(root, params) {
-    const templateId = params.mode === 'form' ? 'tpl-request-form' : 'tpl-request-detail'; root.append(document.getElementById(templateId).content.cloneNode(true));
+    const templateId = params.mode === 'list' ? 'tpl-leave-requests' : params.mode === 'form' ? 'tpl-request-form' : 'tpl-request-detail';
+    root.append(document.getElementById(templateId).content.cloneNode(true));
     if (params.mode === 'list') await listView(root); else if (params.mode === 'form') await formView(root.querySelector('.page-section'), params.id); else if (params.mode === 'history') await historyView(root, params.id); else await detailView(root, params.id, params.approval);
 }
 export function unmount() { cleanup(); cleanup = () => {}; }

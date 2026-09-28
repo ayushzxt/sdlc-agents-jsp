@@ -1,0 +1,13 @@
+<template id="tpl-login">
+    <section class="auth-panel" aria-labelledby="login-title">
+        <p class="eyebrow">People operations</p>
+        <h1 id="login-title" tabindex="-1">Your leave, clearly handled.</h1>
+        <p class="lede">Sign in to submit requests, follow decisions, and keep the record in one place.</p>
+        <form id="login-form" class="form-stack">
+            <div class="field"><label for="login-username">Username</label><input id="login-username" name="username" autocomplete="username" required></div>
+            <div class="field"><label for="login-password">Password</label><input id="login-password" name="password" type="password" autocomplete="current-password" required></div>
+            <p id="login-error" class="form-error" role="alert" hidden></p>
+            <button class="button button-primary" type="submit">Sign in <span aria-hidden="true">→</span></button>
+        </form>
+    </section>
+</template>

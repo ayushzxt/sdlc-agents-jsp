@@ -26,6 +26,14 @@ read-only `curl` / `gh` / `git` calls. Never change `pom.xml`, workflow files, o
 | New issues | `issues/search?componentKeys=<key>&pullRequest=<pr>&resolved=false&ps=100` → keep `rule`, `severity`, `type`, `component`, `line`, `message` |
 | Security hotspots | `hotspots/search?projectKey=<key>&pullRequest=<pr>&status=TO_REVIEW` → keep `component`, `line`, `message`, `vulnerabilityProbability` |
 | New-code metrics | `measures/component?component=<key>&pullRequest=<pr>&metricKeys=new_coverage,new_duplicated_lines_density,new_bugs,new_vulnerabilities,new_code_smells,new_security_hotspots` |
+| Coverage gaps (only if `new_coverage` fails) | `measures/component_tree?component=<key>&pullRequest=<pr>&qualifiers=FIL&metricKeys=new_uncovered_lines,new_lines_to_cover&ps=500` → keep files with `new_uncovered_lines > 0`, largest first |
+
+API quirks:
+- For a PR, `new_*` metric values are in `periods[0].value`, not in `value`.
+- The quality gate's `conditions[]` has the actual value and threshold for each condition. Use
+  those numbers verbatim.
+- The scanner runs in `backend/`, so component paths are relative to it:
+  `<key>:src/main/java/...` is the repo path `backend/src/main/java/...`.
 
 ## Standalone mode (called directly, not by the orchestrator)
 
@@ -46,8 +54,9 @@ If you weren't given a run folder, e.g. the user just asked "run sonar check":
    retry, at most 5 times, then write **UNAVAILABLE**.
 3. For each failed quality-gate condition (e.g. `new_coverage < 80`), find the issues or files
    that cause it.
-4. Map every component (`<key>:backend/src/...`) to a repo path and an owner using the lanes in
-   `copilot-instructions.md`: backend, frontend, or tests (coverage gaps on new code → tests).
+4. Map every component to a repo path (prefix `backend/`, see API quirks) and an owner using the
+   lanes in `copilot-instructions.md`: backend, frontend, or tests (coverage gaps on new code →
+   tests, listing the files with the most uncovered lines).
 5. Treat a **Vulnerability** or a **HIGH**-probability hotspot as a security finding and tag it
    `security`, so the orchestrator can decide whether `security-reviewer` must re-check it.
 

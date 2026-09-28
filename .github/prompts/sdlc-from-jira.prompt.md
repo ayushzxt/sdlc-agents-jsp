@@ -1,6 +1,6 @@
 ---
 agent: sdlc-orchestrator
-description: 'Run the SDLC pipeline for existing Jira issues (skips story writing): design -> code -> tests -> reviews -> PR.'
+description: 'Run the SDLC pipeline for existing Jira issues (skips story writing): design -> code -> tests -> reviews -> PR -> CI + Sonar.'
 argument-hint: Jira keys, e.g. TAS-12, TAS-13
 ---
 

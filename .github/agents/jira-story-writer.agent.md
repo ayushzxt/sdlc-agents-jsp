@@ -1,6 +1,7 @@
 ---
 name: jira-story-writer
 description: Stage 2 of the SDLC pipeline. Publishes the human-approved epic and stories from .sdlc/runs/<run-id>/01-stories.md into Jira project TAS (Epic + child Stories/Bugs) and writes the created keys back into the file. Also has an import mode that reads existing Jira issues into 01-stories.md. Only run after the human approved the stories.
+model: ['Claude Haiku 4.5', 'Claude Sonnet 5']
 tools: ['read', 'edit', 'atlassian/getAccessibleAtlassianResources', 'atlassian/getVisibleJiraProjects', 'atlassian/getJiraProjectIssueTypesMetadata', 'atlassian/getJiraIssueTypeMetaWithFields', 'atlassian/createJiraIssue', 'atlassian/editJiraIssue', 'atlassian/getJiraIssue', 'atlassian/searchJiraIssuesUsingJql', 'atlassian/atlassianUserInfo']
 ---
 

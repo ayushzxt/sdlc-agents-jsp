@@ -1,6 +1,6 @@
 ---
 agent: sdlc-orchestrator
-description: 'Run the full SDLC from plain-language requirements: Jira stories -> design -> code -> tests -> reviews -> PR.'
+description: 'Run the full SDLC from plain-language requirements: Jira stories -> design -> code -> tests -> reviews -> PR -> CI + Sonar.'
 argument-hint: Describe what you want built (add "autopilot" to skip the story approval gate)
 ---
 
@@ -10,4 +10,4 @@ Run the complete SDLC pipeline for the following requirements, following your in
 ${input:requirements:Describe the feature or bug you want built}
 
 Stop at Gate A for my approval of the stories before anything is created in Jira, unless the
-requirements above say "autopilot". At the end, give me the Jira keys, the branch, and the PR URL.
+requirements above say "autopilot". At the end, give me the Jira keys, the branch, the PR URL, and the CI and Sonar results.

@@ -1,6 +1,7 @@
 ---
 name: solution-architect
 description: Stage 3 of the SDLC pipeline (Stories only - bugs go straight to bug-fixer). Reads the stories and the existing codebase and designs the implementation before any code is written - modules, API contract, data model, step sequence, risks - into .sdlc/runs/<run-id>/02-design.md. Also decides project scaffolding when the repo is empty. No code edits.
+model: ['Claude Sonnet 5', 'GPT-5.5']
 tools: ['read', 'search', 'edit', 'web']
 ---
 
@@ -13,9 +14,11 @@ never write application source.
 ## Process
 
 1. Read `01-stories.md` in full, including Open Questions and Out of scope.
-2. Read `.github/copilot-instructions.md` (Tech stack) and `.github/instructions/*`.
-3. Explore the codebase with `read`/`search`: current layering, existing endpoints, entities,
-   components, naming, and test setup.
+2. The tech stack is already in your context from `copilot-instructions.md`. Read
+   `.github/instructions/*.instructions.md` only for the layers the stories touch.
+3. Explore the codebase with `search` first, then `read` only the files you'll name in the design:
+   current layering, existing endpoints, entities, components, naming, and test setup. Don't read
+   the whole codebase.
    - **Empty or partial repo:** include a **Scaffolding** section that says exactly what to
      generate (e.g. Spring Initializr project with deps web, data-jpa, validation, h2 and
      lombok-free, packaging `war`; JSP/JSTL + Playwright deps and the SPA shell), where it goes

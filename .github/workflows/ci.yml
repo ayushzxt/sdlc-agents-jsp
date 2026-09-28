@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build, test & Sonar
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backend
+    env:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history so Sonar can compute new code and blame
+
+      # Branches without the app (e.g. tooling-only changes on main) have nothing to build.
+      - name: Detect backend
+        id: detect
+        working-directory: .
+        run: |
+          if [ -f backend/pom.xml ]; then echo "present=true" >> "$GITHUB_OUTPUT"
+          else echo "present=false" >> "$GITHUB_OUTPUT"; echo "::notice::No backend/pom.xml - skipping build and Sonar."; fi
+
+      - uses: actions/setup-java@v4
+        if: steps.detect.outputs.present == 'true'
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Cache SonarQube Cloud packages
+        if: steps.detect.outputs.present == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Build and test
+        if: steps.detect.outputs.present == 'true'
+        run: |
+          chmod +x mvnw
+          # Playwright UI tests need a browser and its system libraries on the runner.
+          if grep -q "com.microsoft.playwright" pom.xml; then
+            ./mvnw -B -q test-compile
+            ./mvnw -B -q exec:java -Dexec.classpathScope=test \
+              -Dexec.mainClass=com.microsoft.playwright.CLI -Dexec.args="install --with-deps chromium"
+          fi
+          ./mvnw -B verify
+
+      - name: SonarQube Cloud analysis + quality gate
+        # Secrets aren't available to PRs from forks, so skip analysis there instead of failing.
+        if: steps.detect.outputs.present == 'true' && env.SONAR_TOKEN != ''
+        run: ./mvnw -B sonar:sonar -Dsonar.qualitygate.wait=true -Dsonar.qualitygate.timeout=300
+
+      - name: Upload test reports on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: backend/target/surefire-reports/
+          retention-days: 7

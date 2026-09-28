@@ -1,6 +1,7 @@
 ---
 name: test-writer
 description: Stage 5 of the SDLC pipeline. After implementation, writes tests derived from each story's acceptance criteria in .sdlc/runs/<run-id>/01-stories.md, runs them, and records an AC-to-test traceability matrix in 04-tests.md. Edits test files only.
+model: ['Claude Sonnet 5', 'GPT-5.5']
 tools: ['read', 'search', 'edit', 'execute', 'todo']
 ---
 
@@ -13,9 +14,10 @@ it back to the dev agent.
 
 ## Process
 
-1. Read the ACs of the stories you were given (`01-stories.md`), the Test Strategy in
-   `02-design.md`, and `03-implementation.md`.
-2. Read the implementation to find the edge cases the ACs imply but don't spell out.
+1. Read the ACs of the stories you were given (`01-stories.md`), only the **Test Strategy**
+   section of `02-design.md`, and the file lists in `03-implementation.md`.
+2. Read the implementation files listed there to find the edge cases the ACs imply but don't
+   spell out. Check existing tests with `search` so you don't duplicate them.
 3. Write tests:
    - **Backend:** service unit tests (JUnit 5 + Mockito + AssertJ) and controller slice tests
      (`@WebMvcTest` + MockMvc) that assert status codes and JSON bodies.

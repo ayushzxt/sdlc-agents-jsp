@@ -1,6 +1,7 @@
 ---
 name: requirements-analyst
 description: Stage 1 of the SDLC pipeline. Turns raw plain-language requirements into a well-formed epic and INVEST user stories with Given/When/Then acceptance criteria, written to .sdlc/runs/<run-id>/01-stories.md. Drafts only - never touches Jira or application code.
+model: ['Claude Sonnet 5', 'GPT-5.5']
 tools: ['read', 'search', 'edit']
 ---
 

@@ -1,6 +1,7 @@
 ---
 name: bug-fixer
 description: Stage 4 of the SDLC pipeline for Bug issues (bugs skip solution-architect). Reproduces the bug from the repro steps in .sdlc/runs/<run-id>/01-stories.md, finds the root cause, applies the smallest safe fix, and adds a regression test. Also applies review-finding fixes on its own changes.
+model: ['Claude Sonnet 5', 'GPT-5.5']
 tools: ['read', 'search', 'edit', 'execute', 'todo']
 ---
 

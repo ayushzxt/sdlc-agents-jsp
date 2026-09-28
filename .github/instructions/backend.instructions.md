@@ -15,9 +15,12 @@ SPA files (`src/main/webapp/**`, `src/main/resources/static/**`, the `web` packa
 - **Constructor injection only.** No `@Autowired` field or setter injection.
 - **Entities have behaviour methods** (e.g. `task.complete()`) instead of setters called from
   outside.
-- **Validation:** `jakarta.validation` on request DTOs, `@Valid` on controller params.
-- **Errors:** domain exceptions thrown from services, mapped in one `@RestControllerAdvice` to a
-  consistent `ApiError` body. No stack traces in responses.
+- **Validation:** `jakarta.validation` on request DTOs, `@Valid` on controller params, and
+  `MethodArgumentNotValidException` mapped to 400.
+- **Errors:** domain exceptions (e.g. `ResourceNotFoundException`) thrown from services, mapped in
+  one `@RestControllerAdvice` to a consistent `ApiError` body. No try/catch in controllers, no
+  stack traces in responses.
+- Design patterns only where the problem calls for them, with a one-line justification.
 - **Transactions:** `@Transactional(readOnly = true)` on the service class, `@Transactional` on
   mutating methods.
 - **No N+1 queries.** Use fetch joins or dedicated queries.

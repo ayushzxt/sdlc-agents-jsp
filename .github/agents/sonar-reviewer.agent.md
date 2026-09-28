@@ -27,6 +27,17 @@ read-only `curl` / `gh` / `git` calls. Never change `pom.xml`, workflow files, o
 | Security hotspots | `hotspots/search?projectKey=<key>&pullRequest=<pr>&status=TO_REVIEW` → keep `component`, `line`, `message`, `vulnerabilityProbability` |
 | New-code metrics | `measures/component?component=<key>&pullRequest=<pr>&metricKeys=new_coverage,new_duplicated_lines_density,new_bugs,new_vulnerabilities,new_code_smells,new_security_hotspots` |
 
+## Standalone mode (called directly, not by the orchestrator)
+
+If you weren't given a run folder, e.g. the user just asked "run sonar check":
+- Get the PR from the current branch: `gh pr view --json number,url,headRefName`. With no open
+  PR, report the branch analysis instead: use `branch=<name>` in place of `pullRequest=<pr>`
+  (for `main`, drop both).
+- Skip step 1 of the process and don't write any file. Reply in chat with the output format below.
+- If the API has no analysis for that PR or branch, say so plainly: analysis runs in CI
+  (`.github/workflows/ci.yml`), so CI has to run for this PR or branch first. Don't try to run the
+  scanner locally.
+
 ## Process
 
 1. Read `08-ci.md`. If the Sonar step never ran or failed with a setup error, don't call the

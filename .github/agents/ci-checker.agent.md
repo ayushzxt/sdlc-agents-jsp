@@ -16,6 +16,13 @@ The workflow is `.github/workflows/ci.yml` (workflow name `CI`, job `Build, test
 runs `./mvnw verify` with JaCoCo, then the SonarQube Cloud analysis with
 `-Dsonar.qualitygate.wait=true`, so a failed quality gate fails the job.
 
+## Standalone mode (called directly, not by the orchestrator)
+
+If you weren't given a run folder, get the PR from the current branch with
+`gh pr view --json number,url,headRefName`, skip the `07-pr.md` lookup, don't write any file, and
+reply in chat with the output format below. With no open PR, check the latest run on the branch
+instead: `gh run list --branch <branch> --workflow CI -L 1`.
+
 ## Process
 
 1. Get the PR number and branch from `07-pr.md`. Get the local head with `git rev-parse HEAD`.
